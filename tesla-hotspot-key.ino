@@ -2,9 +2,21 @@
 #include <NimBLEDevice.h>
 
 const int BUTTON_PIN = 0;
-#define USER_LED 15
 
-HijelHID_BLEKeyboard keyboard("AOTesla", "Hijel", 100);
+// Override per board with -DUSER_LED=<gpio> / -DLED_ON=LOW (see build.sh).
+// Some S3 dev board revisions wire the RGB LED to GPIO38 instead of the variant's 48.
+#ifndef USER_LED
+  #ifdef LED_BUILTIN
+    #define USER_LED LED_BUILTIN
+  #else
+    #define USER_LED 15
+  #endif
+#endif
+#ifndef LED_ON
+  #define LED_ON HIGH
+#endif
+
+HijelHID_BLEKeyboard keyboard("test2", "Hijel", 100);
 
 /**
 
@@ -22,14 +34,13 @@ void setup() {
 
     Serial.println("HijelHID BLE Keyboard — Basic Example");
 
-
     pinMode(BUTTON_PIN, INPUT_PULLUP);
 
     keyboard.setLogLevel(HIDLogLevel::Normal);
 
     // set led on
     pinMode(USER_LED, OUTPUT);
-    digitalWrite(USER_LED, LOW);
+    rgbLedWrite(USER_LED, 1, 1, 1);  // 0–255 per channel; core default via digitalWrite is 64
 
     // start
     keyboard.begin();
