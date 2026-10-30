@@ -1,2 +1,14 @@
-default_port: /dev/cu.usbmodem101
-default_fqbn: esp32:esp32:esp32s3
+profiles:
+  profile:
+    fqbn: esp32:esp32:esp32s3usbotg:USBMode=default,UploadMode=default,PartitionScheme=default,DebugLevel=none,EraseFlash=none
+    platforms:
+      - platform: esp32:esp32 (3.3.12)
+    libraries:
+      - HijelHID_BLEKeyboard (0.5.0)
+      - NimBLE-Arduino (2.5.2)
+    port: /dev/tty.usbmodem101
+    port_config:
+      baudrate: "115200"
+      bits: "8"
+      parity: none
+      stop_bits: one
