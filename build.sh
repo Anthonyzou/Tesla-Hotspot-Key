@@ -2,11 +2,11 @@
 set -euo pipefail
 
 PORT=/dev/cu.usbmodem101
-FQBN=esp32:esp32:esp32s3
+# FQBN=esp32:esp32:esp32s3
+# Optional LED overrides, e.g. LED_FLAGS="-DUSER_LED=38" or "-DUSER_LED=15 -DLED_ON=LOW"
+FQBN=esp32:esp32:esp32c6; LED_FLAGS="-DUSER_LED=15"
 # CDCOnBoot=cdc routes Serial to the native USB port (dev); drop it for production.
 OPTS= # CDCOnBoot=cdc
-# Optional LED overrides, e.g. LED_FLAGS="-DUSER_LED=38" or "-DUSER_LED=15 -DLED_ON=LOW"
-LED_FLAGS=${LED_FLAGS:-}
 
 setup() {
   arduino-cli core install esp32:esp32
